@@ -60,4 +60,8 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+
+    implementation 'com.google.accompanist:accompanist-pager:0.27.0'
+
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
 }
