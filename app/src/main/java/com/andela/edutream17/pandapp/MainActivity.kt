@@ -2,6 +2,7 @@ package com.andela.edutream17.pandapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,9 @@ import com.andela.edutream17.pandapp.ui.view.LearnView
 import com.andela.edutream17.pandapp.ui.view.StatisticsView
 import com.andela.edutream17.pandapp.utils.Constant
 import com.andela.edutream17.pandapp.utils.Extension.capitalized
+import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
+import com.google.firebase.ml.modeldownloader.DownloadType
+import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
 import java.util.*
 
 class MainActivity : ComponentActivity() {
@@ -51,6 +55,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        initTensorFlowAndLoadModel()
     }
 }
 
@@ -131,3 +136,19 @@ fun TabItemBar(
             })
     }
 }
+
+fun initTensorFlowAndLoadModel() {
+    val conditions = CustomModelDownloadConditions.Builder().requireWifi().build()
+    FirebaseModelDownloader.getInstance()
+        .getModel("PandaApp-Model", DownloadType.LOCAL_MODEL, conditions)
+        .addOnSuccessListener { model ->
+            Log.i(
+                TAG,
+                "initTensorFlowAndLoadModel:addOnSuccessListener ${model.name} ${model.downloadId} ${model.file}"
+            )
+        }.addOnFailureListener { exception ->
+            Log.i(TAG, "initTensorFlowAndLoadModel: addOnFailureListener ${exception.message}")
+        }
+}
+
+private const val TAG = "MainActivity"
