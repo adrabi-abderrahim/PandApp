@@ -37,7 +37,6 @@ import com.andela.edutream17.pandapp.ui.view.LearnView
 import com.andela.edutream17.pandapp.ui.view.StatisticsView
 import com.andela.edutream17.pandapp.utils.Constant
 import com.andela.edutream17.pandapp.utils.Extension.capitalized
-import com.google.accompanist.pager.ExperimentalPagerApi
 import java.util.*
 
 class MainActivity : ComponentActivity() {
