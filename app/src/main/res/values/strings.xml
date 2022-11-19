@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PandApp</string>
+    <string name="title_activity_virtual_peer_download">VirtualPeerDownloadActivity</string>
+    <string name="title_activity_chat_bot">ChatBotActivity</string>
 </resources>
