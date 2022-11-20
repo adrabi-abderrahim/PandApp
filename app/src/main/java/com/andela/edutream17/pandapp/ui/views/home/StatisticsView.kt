@@ -5,6 +5,6 @@ import androidx.navigation.NavController
 
 
 @Composable
-fun StatisticsView(navController: NavController){
+fun StatisticsView(navController: NavController) {
 
 }

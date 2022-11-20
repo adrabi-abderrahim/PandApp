@@ -10,13 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ChatBotTopBar(onClick: () -> Unit){
+fun ChatBotTopBar(onClick: () -> Unit) {
     TopAppBar(
         title = { Text("<ChatBot Name>") },
         elevation = 0.5.dp,
-        navigationIcon = { IconButton(onClick = onClick) {
-            Icon(Icons.Default.ArrowBack, contentDescription = null)
-        }
+        navigationIcon = {
+            IconButton(onClick = onClick) {
+                Icon(Icons.Default.ArrowBack, contentDescription = null)
+            }
         }
     )
 }

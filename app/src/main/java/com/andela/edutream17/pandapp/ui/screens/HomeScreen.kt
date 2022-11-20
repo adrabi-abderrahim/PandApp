@@ -21,23 +21,27 @@ import com.andela.edutream17.pandapp.ui.views.home.components.TabItem
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    var currentTab by remember{
-        mutableStateOf( TabItem.LEARN)
+    var currentTab by remember {
+        mutableStateOf(TabItem.LEARN)
     }
 
     Scaffold(
         topBar = { PandAppTopBar() },
         floatingActionButton = {
-            if(currentTab == TabItem.LEARN) {
+            if (currentTab == TabItem.LEARN) {
                 FloatingActionButton(onClick = { navController.navigate("download") }) {
-                    Icon(Icons.Rounded.Add, contentDescription = null, modifier = Modifier.size(48.dp))
+                    Icon(
+                        Icons.Rounded.Add,
+                        contentDescription = null,
+                        modifier = Modifier.size(48.dp)
+                    )
                 }
             }
         }
     ) { paddingValues ->
-        PandAppTabBar(modifier = Modifier.padding(paddingValues)){
+        PandAppTabBar(modifier = Modifier.padding(paddingValues)) {
             currentTab = it
-            when(it){
+            when (it) {
                 TabItem.LEARN -> LearnView(navController)
                 TabItem.COMPLETED -> CompletedView(navController)
                 TabItem.STATISTICS -> StatisticsView(navController)

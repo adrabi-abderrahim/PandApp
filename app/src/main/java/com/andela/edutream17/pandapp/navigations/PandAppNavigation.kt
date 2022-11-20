@@ -10,18 +10,18 @@ import com.andela.edutream17.pandapp.ui.screens.VirtualPeerDownloadScreen
 
 
 @Composable
-fun PandAppNavigation(){
+fun PandAppNavigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "home"){
-        composable("home"){
+    NavHost(navController = navController, startDestination = "home") {
+        composable("home") {
             HomeScreen(navController)
         }
 
-        composable("download"){
+        composable("download") {
             VirtualPeerDownloadScreen(navController)
         }
 
-        composable("chatbot"){
+        composable("chatbot") {
             ChatBotScreen(navController)
         }
     }

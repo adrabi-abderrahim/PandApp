@@ -29,9 +29,9 @@ val dummy = listOf<VirtualPeerModel>(
 )
 
 @Composable
-fun LearnView(navController: NavController){
-    LazyColumn{
-        items(dummy){
+fun LearnView(navController: NavController) {
+    LazyColumn {
+        items(dummy) {
             VirtualContactItem(it, navController)
         }
     }

@@ -34,9 +34,9 @@ fun PandAppTabs(
         titles.forEachIndexed { index, title ->
             val selected = index == tabSelected.ordinal
             Tab(
-                text = {Text(title)},
+                text = { Text(title) },
                 selected = selected,
-                onClick = {onTabSelected(TabItem.values()[index])}
+                onClick = { onTabSelected(TabItem.values()[index]) }
             )
         }
     }

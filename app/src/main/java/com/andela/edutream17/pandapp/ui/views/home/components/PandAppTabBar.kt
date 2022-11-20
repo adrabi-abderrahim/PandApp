@@ -8,7 +8,10 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-private fun PandAppTabBarRow(modifier: Modifier = Modifier, children: @Composable (Modifier) -> Unit) {
+private fun PandAppTabBarRow(
+    modifier: Modifier = Modifier,
+    children: @Composable (Modifier) -> Unit
+) {
     Row(modifier) {
         children(
             modifier

@@ -12,14 +12,16 @@ import androidx.navigation.NavController
 
 
 @Composable
-fun VirtualPeerDownloadScreen(navController: NavController){
+fun VirtualPeerDownloadScreen(navController: NavController) {
     Scaffold(topBar = {
         TopAppBar(
             title = { Text("Add a virtual peer") },
             elevation = 0.5.dp,
-            navigationIcon = { IconButton(onClick = { navController.popBackStack() }) {
-                Icon(Icons.Default.ArrowBack, contentDescription = null)
-            } }
+            navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = null)
+                }
+            }
         )
     }) {
         Column(modifier = Modifier.padding(it)) {

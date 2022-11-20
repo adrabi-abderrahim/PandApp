@@ -4,6 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 
 @Composable
-fun CompletedView(navController: NavController){
+fun CompletedView(navController: NavController) {
 
 }
