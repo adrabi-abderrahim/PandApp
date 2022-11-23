@@ -11,9 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.andela.edutream17.pandapp.ui.views.CompletedView
-import com.andela.edutream17.pandapp.ui.views.LearnView
-import com.andela.edutream17.pandapp.ui.views.StatisticsView
+import com.andela.edutream17.pandapp.ui.views.home.CompletedView
+import com.andela.edutream17.pandapp.ui.views.home.LearnView
+import com.andela.edutream17.pandapp.ui.views.home.StatisticsView
 import com.andela.edutream17.pandapp.ui.views.home.components.PandAppTabBar
 import com.andela.edutream17.pandapp.ui.views.home.components.PandAppTopBar
 import com.andela.edutream17.pandapp.ui.views.home.components.TabItem

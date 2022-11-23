@@ -55,7 +55,7 @@ fun ChatBotScreen(navController: NavController, vm: ChatBotViewModel = ChatBotVi
 
                 vm.addMessage(
                     ChatMessageModel(
-                        currentMessage ?: "",
+                        currentMessage,
                         true
                     )
                 )

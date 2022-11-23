@@ -1,4 +1,4 @@
-package com.andela.edutream17.pandapp.ui.views
+package com.andela.edutream17.pandapp.ui.views.home
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController

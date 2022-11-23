@@ -34,7 +34,7 @@ fun ChatBubble(modifier: Modifier = Modifier, msg: ChatMessageModel) {
                 .clip(RoundedCornerShape(12.dp))
                 .background(color = color)
         ) {
-            Column(horizontalAlignment = if(msg.isUserMessage) Alignment.End else Alignment.Start) {
+            Column(horizontalAlignment = if (msg.isUserMessage) Alignment.End else Alignment.Start) {
                 Text(
                     text = msg.message,
                     modifier = Modifier
@@ -43,17 +43,21 @@ fun ChatBubble(modifier: Modifier = Modifier, msg: ChatMessageModel) {
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
                 )
-                    Text(
-                        text = if (msg.messageDateTime.toLocalDate().isEqual(LocalDateTime.now().toLocalDate()))
-                                    msg.messageDateTime.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
-                                else
-                                    msg.messageDateTime.toLocalDate().format(DateTimeFormatter.ofPattern ( "dd MMM yy" )),
-                        modifier = Modifier
-                            .padding(horizontal = 5.dp)
-                            .padding(top = 1.dp, bottom = 3.dp),
-                        fontSize = 12.sp,
-                        color = Color(0xED3F3F3F)
+                Text(
+                    text = if (msg.messageDateTime.toLocalDate()
+                            .isEqual(LocalDateTime.now().toLocalDate())
                     )
+                        msg.messageDateTime.toLocalTime()
+                            .format(DateTimeFormatter.ofPattern("HH:mm"))
+                    else
+                        msg.messageDateTime.toLocalDate()
+                            .format(DateTimeFormatter.ofPattern("dd MMM yy")),
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .padding(top = 1.dp, bottom = 3.dp),
+                    fontSize = 12.sp,
+                    color = Color(0xED3F3F3F)
+                )
 
             }
         }

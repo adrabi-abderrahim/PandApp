@@ -3,19 +3,22 @@ package com.andela.edutream17.pandapp.services
 import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.content.Context
-import android.util.Log
 import androidx.core.content.getSystemService
+import com.andela.edutream17.pandapp.database.entities.CustomModelEntity
 import com.andela.edutream17.pandapp.models.DownloadingModel
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
 import com.google.firebase.ml.modeldownloader.DownloadType
 import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import me.adrabi.appcustomtfmodel.database.entities.CustomModelEntity
+import kotlinx.coroutines.tasks.await
 import java.util.*
 import kotlin.concurrent.scheduleAtFixedRate
 
-class ModelDownloaderService private constructor(_context: Context) {
+class RemoteModelService private constructor(_context: Context) {
     private val context: Context = _context
     private val firebase = FirebaseModelDownloader.getInstance()
     private val conditions = CustomModelDownloadConditions
@@ -24,29 +27,29 @@ class ModelDownloaderService private constructor(_context: Context) {
         .build()
 
     @SuppressLint("Range")
-    fun getModel(model: String, period: Long = 300, onDownloading: (DownloadingModel) -> Boolean) {
+    fun getModel(
+        modelName: String,
+        period: Long = 300,
+        onDownloading: (DownloadingModel) -> Boolean
+    ) {
         //TODO: to be removed
-        firebase.deleteDownloadedModel(model)
+        firebase.deleteDownloadedModel(modelName)
 
         firebase.getModelDownloadId(
-            model,
+            modelName,
             firebase.getModel(
-                model,
+                modelName,
                 DownloadType.LOCAL_MODEL,
                 conditions
             ).addOnSuccessListener {
-                runBlocking {
-                    launch {
-                        val modelFile = it?.file
-                        if (modelFile != null) {
+                val modelFile = it?.file
+                if (modelFile != null) {
+                    runBlocking {
+                        launch {
                             val customModelService = CustomModelService.build(context)
-                            customModelService.insertAll(
-                                CustomModelEntity(
-                                    model,
-                                    modelFile.absolutePath
-                                )
-                            )
-                            Log.i("<Downloaded File>", modelFile.absolutePath)
+                            val modelEntity = getModelMetadata(modelName)
+                            modelEntity.path = modelFile.absolutePath
+                            customModelService.insert(modelEntity)
                         }
                     }
                 }
@@ -54,8 +57,6 @@ class ModelDownloaderService private constructor(_context: Context) {
         ).addOnSuccessListener {
             val downloadManager: DownloadManager? = context.getSystemService()
             if (it > 0) {
-                Log.i("<DownloadModelService>", "The download ID: $it")
-                Log.i("<DownloadModelService>", "Timer is created")
                 val timer = Timer()
                 timer.scheduleAtFixedRate(0, period) {
                     val cursor = downloadManager?.query(DownloadManager.Query().setFilterById(it))
@@ -72,7 +73,6 @@ class ModelDownloaderService private constructor(_context: Context) {
                                 )
                             )
                         ) {
-                            Log.i("<DownloadModelService>", "Timer is cancelled")
                             timer.cancel()
                         }
                     }
@@ -81,7 +81,46 @@ class ModelDownloaderService private constructor(_context: Context) {
         }
     }
 
+    suspend fun getAllModelsMetadata(): List<CustomModelEntity> {
+        return Firebase.firestore
+            .collection("ml-custom-model")
+            .get()
+            .await()
+            .documents.map {
+                documentToModel(it)
+            }
+    }
+
+    suspend fun getModelMetadata(modelName: String): CustomModelEntity {
+        val document = Firebase
+            .firestore
+            .collection("ml-custom-model")
+            .whereEqualTo("name", modelName)
+            .limit(1)
+            .get()
+            .await()
+            .first()
+
+        return documentToModel(document)
+    }
+
+    private fun documentToModel(document: DocumentSnapshot): CustomModelEntity {
+        return CustomModelEntity(
+            name = document["name"] as String,
+            metadata = CustomModelEntity.Metadata(
+                label = document["label"] as String,
+                description = document["description"] as String,
+                inputSize = (document["input-size"] as Long).toInt(),
+                outputSize = (document["output-size"] as Long).toInt(),
+                minAcceptedProbability = document["min-accepted-probability"] as Double,
+                vocabulary = document.get("vocabulary") as Map<String, Int>,
+                uuid = document["uuid"] as List<String>,
+                responses = document["responses"] as Map<String, String>
+            )
+        )
+    }
+
     companion object {
-        fun build(context: Context) = ModelDownloaderService(context)
+        fun build(context: Context) = RemoteModelService(context)
     }
 }

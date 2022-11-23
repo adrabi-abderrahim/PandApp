@@ -1,7 +1,7 @@
 package me.adrabi.appcustomtfmodel.database.Dao
 
 import androidx.room.*
-import me.adrabi.appcustomtfmodel.database.entities.CustomModelEntity
+import com.andela.edutream17.pandapp.database.entities.CustomModelEntity
 
 @Dao
 interface CustomModelDao {
@@ -12,7 +12,7 @@ interface CustomModelDao {
     suspend fun get(name: String): CustomModelEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vararg customModels: CustomModelEntity)
+    suspend fun insert(customModel: CustomModelEntity)
 
     @Update
     suspend fun update(customModel: CustomModelEntity)
