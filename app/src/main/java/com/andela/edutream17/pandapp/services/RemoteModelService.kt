@@ -32,9 +32,6 @@ class RemoteModelService private constructor(_context: Context) {
         period: Long = 300,
         onDownloading: (DownloadingModel) -> Boolean
     ) {
-        //TODO: to be removed
-        firebase.deleteDownloadedModel(modelName)
-
         firebase.getModelDownloadId(
             modelName,
             firebase.getModel(
@@ -50,6 +47,16 @@ class RemoteModelService private constructor(_context: Context) {
                             val modelEntity = getModelMetadata(modelName)
                             modelEntity.path = modelFile.absolutePath
                             customModelService.insert(modelEntity)
+                            //~ Add welcome message
+                            val historyService: ChatHistoryService =
+                                ChatHistoryService.build(context)
+                            historyService.addMessage(
+                                modelName,
+                                """
+                                    Hello Dear,
+                                    I am ${modelEntity.metadata?.label}, and I am glad to meet you. And, Happy learning!
+                                """.trimIndent()
+                            )
                         }
                     }
                 }
@@ -79,6 +86,10 @@ class RemoteModelService private constructor(_context: Context) {
                 }
             }
         }
+    }
+
+    fun removeModel(modelName: String) {
+        firebase.deleteDownloadedModel(modelName)
     }
 
     suspend fun getAllModelsMetadata(): List<CustomModelEntity> {

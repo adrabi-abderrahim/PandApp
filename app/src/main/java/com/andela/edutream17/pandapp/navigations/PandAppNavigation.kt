@@ -21,8 +21,9 @@ fun PandAppNavigation() {
             VirtualPeerDownloadScreen(navController)
         }
 
-        composable("chatbot") {
-            ChatBotScreen(navController)
+        composable("chatbot/{modelName}") {
+            val modelName = it.arguments?.getString("modelName")!!
+            ChatBotScreen(navController, modelName)
         }
     }
 }

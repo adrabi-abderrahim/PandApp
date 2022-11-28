@@ -3,7 +3,6 @@ package com.andela.edutream17.pandapp.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
 
 @Entity(tableName = "custom_model")
 data class CustomModelEntity(
@@ -12,12 +11,6 @@ data class CustomModelEntity(
 
     @ColumnInfo(name = "path")
     var path: String? = null,
-
-    @ColumnInfo(name = "last_message")
-    var lastMessage: String? = null,
-
-    @ColumnInfo(name = "date_last_message")
-    var dateOfLastMessage: LocalDateTime? = null,
 
     @ColumnInfo
     var metadata: Metadata? = null

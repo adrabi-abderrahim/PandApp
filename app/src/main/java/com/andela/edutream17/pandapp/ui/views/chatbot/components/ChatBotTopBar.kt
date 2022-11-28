@@ -8,11 +8,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import com.andela.edutream17.pandapp.database.entities.CustomModelEntity
 
 @Composable
-fun ChatBotTopBar(onClick: () -> Unit) {
+fun ChatBotTopBar(customModelEntity: CustomModelEntity, onClick: () -> Unit) {
     TopAppBar(
-        title = { Text("<ChatBot Name>") },
+        title = { Text(customModelEntity.metadata?.label!!) },
         elevation = 0.5.dp,
         navigationIcon = {
             IconButton(onClick = onClick) {

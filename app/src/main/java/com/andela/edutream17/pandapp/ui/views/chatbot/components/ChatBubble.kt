@@ -10,16 +10,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.andela.edutream17.pandapp.models.ChatMessageModel
+import com.andela.edutream17.pandapp.database.entities.ChatHistoryEntity
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 @Composable
-fun ChatBubble(modifier: Modifier = Modifier, msg: ChatMessageModel) {
+fun ChatBubble(modifier: Modifier = Modifier, msg: ChatHistoryEntity) {
 
     val start = if (msg.isUserMessage) 50.dp else 5.dp
     val end = if (msg.isUserMessage) 5.dp else 50.dp
@@ -44,13 +43,13 @@ fun ChatBubble(modifier: Modifier = Modifier, msg: ChatMessageModel) {
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = if (msg.messageDateTime.toLocalDate()
+                    text = if (msg.messageDate.toLocalDate()
                             .isEqual(LocalDateTime.now().toLocalDate())
                     )
-                        msg.messageDateTime.toLocalTime()
+                        msg.messageDate.toLocalTime()
                             .format(DateTimeFormatter.ofPattern("HH:mm"))
                     else
-                        msg.messageDateTime.toLocalDate()
+                        msg.messageDate.toLocalDate()
                             .format(DateTimeFormatter.ofPattern("dd MMM yy")),
                     modifier = Modifier
                         .padding(horizontal = 5.dp)
@@ -62,28 +61,4 @@ fun ChatBubble(modifier: Modifier = Modifier, msg: ChatMessageModel) {
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun UserBubblePreview() {
-    ChatBubble(
-        msg = ChatMessageModel(
-            "The message 1, here is the first message",
-            isUserMessage = true,
-            messageDateTime = LocalDateTime.now().minusDays(3)
-        )
-    )
-}
-
-@Preview
-@Composable
-fun PeerBubblePreview() {
-    ChatBubble(
-        msg = ChatMessageModel(
-            "The reall?y",
-            isUserMessage = false
-        )
-    )
 }

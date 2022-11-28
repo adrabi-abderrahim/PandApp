@@ -41,7 +41,11 @@ fun VirtualPeerDownloadRow(
                 .weight(.9f)
                 .fillMaxWidth()
         ) {
-            Text(model.name, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+            Text(
+                model.metadata?.label ?: "<No label>",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold
+            )
             when (state) {
                 VirtualPeerDownloadRowState.DOWNLOADING ->
                     LinearProgressIndicator(

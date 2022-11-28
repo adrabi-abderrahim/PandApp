@@ -1,4 +1,4 @@
-package me.adrabi.appcustomtfmodel.database.Dao
+package com.andela.edutream17.pandapp.database.dao
 
 import androidx.room.*
 import com.andela.edutream17.pandapp.database.entities.CustomModelEntity
@@ -9,7 +9,7 @@ interface CustomModelDao {
     suspend fun getAll(): List<CustomModelEntity>
 
     @Query("select * from custom_model where name=:name limit 1")
-    suspend fun get(name: String): CustomModelEntity
+    suspend fun get(name: String): CustomModelEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(customModel: CustomModelEntity)
@@ -17,6 +17,6 @@ interface CustomModelDao {
     @Update
     suspend fun update(customModel: CustomModelEntity)
 
-    @Delete
+    @Delete()
     suspend fun delete(customModel: CustomModelEntity)
 }
